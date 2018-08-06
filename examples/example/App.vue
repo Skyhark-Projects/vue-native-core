@@ -1,14 +1,16 @@
 <template>
  
 <!-- <custom-flat-list></custom-flat-list> -->
+<!-- <graph-ql></graph-ql> -->
 <slot-sample></slot-sample>
 </template>
 
 <script>
 import customFlatList from "./components/flatlist/index";
 import slotSample from "./components/slots/parent";
+import graphQl from "./components/graphql";
 export default {
-  components: { customFlatList, slotSample }
+  components: { customFlatList, slotSample, graphQl }
 };
 </script>
 
