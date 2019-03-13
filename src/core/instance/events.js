@@ -125,6 +125,9 @@ export function eventsMixin (Vue: Class<Component>) {
         )
       }
     }
+
+    const props = vm.$options.propsData;
+    const cbName = 'on' + event.substr(0, 1).toUpperCase() + event.substr(1);
     let cbs = vm._events[event]
     if (cbs) {
       cbs = cbs.length > 1 ? toArray(cbs) : cbs
@@ -132,7 +135,14 @@ export function eventsMixin (Vue: Class<Component>) {
       for (let i = 0, l = cbs.length; i < l; i++) {
         cbs[i].apply(vm, args)
       }
+    } else if(props[cbName]) {
+        const args = toArray(arguments, 1)
+        const res = props[cbName].apply(vm, args)
+        if(typeof(res) === 'function' && res.name === 'boundFn') {
+            res(...args);
+        }
     }
+
     return vm
   }
 }
