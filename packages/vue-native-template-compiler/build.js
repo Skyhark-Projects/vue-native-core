@@ -1959,7 +1959,7 @@ function processAttrs(el, options, customSlot = false) {
                 addAttr(
                   el,
                   "on-change",
-                  `(value) => ${value}=value.nativeEvent.text`
+                  `(value) => ${value}=value && typeof(value) === 'object' && typeof(value.nativeEvent) === 'object' ? value.nativeEvent.text : value`
                 );
               } else {
                 addAttr(
