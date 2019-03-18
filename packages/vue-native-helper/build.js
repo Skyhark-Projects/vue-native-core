@@ -6,22 +6,22 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 // these helpers produces better vm code in JS engines due to their
 // explicitness and function inlining
-function isUndef (v) {
+function isUndef(v) {
   return v === undefined || v === null
 }
 
-function isDef (v) {
+function isDef(v) {
   return v !== undefined && v !== null
 }
 
-function isTrue (v) {
+function isTrue(v) {
   return v === true
 }
 
 /**
  * Check if value is primitive
  */
-function isPrimitive (value) {
+function isPrimitive(value) {
   return typeof value === 'string' || typeof value === 'number'
 }
 
@@ -30,7 +30,7 @@ function isPrimitive (value) {
  * Objects from primitive values when we know the value
  * is a JSON-compliant type.
  */
-function isObject (obj) {
+function isObject(obj) {
   return obj !== null && typeof obj === 'object'
 }
 
@@ -40,14 +40,14 @@ function isObject (obj) {
  */
 var toString = Object.prototype.toString;
 var OBJECT_STRING = '[object Object]';
-function isPlainObject (obj) {
+function isPlainObject(obj) {
   return toString.call(obj) === OBJECT_STRING
 }
 
 /**
  * Convert a value to a string that is actually rendered.
  */
-function _toString (val) {
+function _toString(val) {
   return val == null
     ? ''
     : typeof val === 'object'
@@ -59,7 +59,7 @@ function _toString (val) {
  * Convert a input value to a number for persistence.
  * If the conversion fails, return original string.
  */
-function toNumber (val) {
+function toNumber(val) {
   var n = parseFloat(val);
   return isNaN(n) ? val : n
 }
@@ -68,7 +68,7 @@ function toNumber (val) {
  * Make a map and return a function for checking if a key
  * is in that map.
  */
-function makeMap (
+function makeMap(
   str,
   expectsLowerCase
 ) {
@@ -90,7 +90,7 @@ var isBuiltInTag = makeMap('slot,component', true);
 /**
  * Remove an item from an array
  */
-function remove (arr, item) {
+function remove(arr, item) {
   if (arr.length) {
     var index = arr.indexOf(item);
     if (index > -1) {
@@ -103,16 +103,16 @@ function remove (arr, item) {
  * Check whether the object has the property.
  */
 var hasOwnProperty = Object.prototype.hasOwnProperty;
-function hasOwn (obj, key) {
+function hasOwn(obj, key) {
   return hasOwnProperty.call(obj, key)
 }
 
 /**
  * Create a cached version of a pure function.
  */
-function cached (fn) {
+function cached(fn) {
   var cache = Object.create(null);
-  return (function cachedFn (str) {
+  return (function cachedFn(str) {
     var hit = cache[str];
     return hit || (cache[str] = fn(str))
   })
@@ -147,8 +147,8 @@ var hyphenate = cached(function (str) {
 /**
  * Simple bind, faster than native
  */
-function bind (fn, ctx) {
-  function boundFn (a) {
+function bind(fn, ctx) {
+  function boundFn(a) {
     var l = arguments.length;
     return l
       ? l > 1
@@ -164,7 +164,7 @@ function bind (fn, ctx) {
 /**
  * Convert an Array-like object to a real Array.
  */
-function toArray (list, start) {
+function toArray(list, start) {
   start = start || 0;
   var i = list.length - start;
   var ret = new Array(i);
@@ -177,7 +177,7 @@ function toArray (list, start) {
 /**
  * Mix properties into target object.
  */
-function extend (to, _from) {
+function extend(to, _from) {
   for (var key in _from) {
     to[key] = _from[key];
   }
@@ -187,7 +187,7 @@ function extend (to, _from) {
 /**
  * Merge an Array of Objects into a single Object.
  */
-function toObject (arr) {
+function toObject(arr) {
   var res = {};
   for (var i = 0; i < arr.length; i++) {
     if (arr[i]) {
@@ -200,7 +200,7 @@ function toObject (arr) {
 /**
  * Perform no operation.
  */
-function noop () {}
+function noop() { }
 
 /**
  * Always return false.
@@ -215,7 +215,7 @@ var identity = function (_) { return _; };
 /**
  * Generate a static keys string from compiler modules.
  */
-function genStaticKeys (modules) {
+function genStaticKeys(modules) {
   return modules.reduce(function (keys, m) {
     return keys.concat(m.staticKeys || [])
   }, []).join(',')
@@ -225,7 +225,7 @@ function genStaticKeys (modules) {
  * Check if two values are loosely equal - that is,
  * if they are plain objects, do they have the same shape?
  */
-function looseEqual (a, b) {
+function looseEqual(a, b) {
   var isObjectA = isObject(a);
   var isObjectB = isObject(b);
   if (isObjectA && isObjectB) {
@@ -242,7 +242,7 @@ function looseEqual (a, b) {
   }
 }
 
-function looseIndexOf (arr, val) {
+function looseIndexOf(arr, val) {
   for (var i = 0; i < arr.length; i++) {
     if (looseEqual(arr[i], val)) { return i }
   }
@@ -252,7 +252,7 @@ function looseIndexOf (arr, val) {
 /**
  * Ensure a function is called only once.
  */
-function once (fn) {
+function once(fn) {
   var called = false;
   return function () {
     if (!called) {
@@ -274,7 +274,7 @@ var emptyObject = Object.freeze({});
 /**
  * Define a property.
  */
-function def (obj, key, val, enumerable) {
+function def(obj, key, val, enumerable) {
   Object.defineProperty(obj, key, {
     value: val,
     enumerable: !!enumerable,
@@ -282,6 +282,10 @@ function def (obj, key, val, enumerable) {
     configurable: true
   });
 }
+
+/**
+ * Parse simple path.
+ */
 
 var ASSET_TYPES = [
   'component',
@@ -392,9 +396,11 @@ var formatComponentName;
 if (process.env.NODE_ENV !== 'production') {
   var hasConsole = typeof console !== 'undefined';
   var classifyRE = /(?:^|[-_])(\w)/g;
-  var classify = function (str) { return str
-    .replace(classifyRE, function (c) { return c.toUpperCase(); })
-    .replace(/[-_]/g, ''); };
+  var classify = function (str) {
+    return str
+      .replace(classifyRE, function (c) { return c.toUpperCase(); })
+      .replace(/[-_]/g, '');
+  };
 
   warn = function (msg, vm) {
     if (hasConsole && (!config.silent)) {
@@ -466,9 +472,11 @@ if (process.env.NODE_ENV !== 'production') {
         vm = vm.$parent;
       }
       return '\n\nfound in\n\n' + tree
-        .map(function (vm, i) { return ("" + (i === 0 ? '---> ' : repeat(' ', 5 + i * 2)) + (Array.isArray(vm)
+        .map(function (vm, i) {
+          return ("" + (i === 0 ? '---> ' : repeat(' ', 5 + i * 2)) + (Array.isArray(vm)
             ? ((formatComponentName(vm[0])) + "... (" + (vm[1]) + " recursive calls)")
-            : formatComponentName(vm))); })
+            : formatComponentName(vm)));
+        })
         .join('\n')
     } else {
       return ("\n\n(found in " + (formatComponentName(vm)) + ")")
@@ -476,7 +484,7 @@ if (process.env.NODE_ENV !== 'production') {
   };
 }
 
-function handleError (err, vm, info) {
+function handleError(err, vm, info) {
   if (config.errorHandler) {
     config.errorHandler.call(null, err, vm, info);
   } else {
@@ -495,20 +503,15 @@ function handleError (err, vm, info) {
 /*  */
 /* globals MutationObserver */
 
-// can we use __proto__?
-var hasProto = "__proto__" in {};
+var hasProto = '__proto__' in {};
 
 // Browser environment sniffing
-var inBrowser = typeof window !== "undefined";
-var UA =
-  inBrowser &&
-  window.navigator &&
-  window.navigator.userAgent &&
-  window.navigator.userAgent.toLowerCase();
+var inBrowser = typeof window !== 'undefined';
+var UA = inBrowser && window.navigator && window.navigator.userAgent && window.navigator.userAgent.toLowerCase();
 var isIE = UA && /msie|trident/.test(UA);
-var isIE9 = UA && UA.indexOf("msie 9.0") > 0;
-var isEdge = UA && UA.indexOf("edge/") > 0;
-var isAndroid = UA && UA.indexOf("android") > 0;
+var isIE9 = UA && UA.indexOf('msie 9.0') > 0;
+var isEdge = UA && UA.indexOf('edge/') > 0;
+var isAndroid = UA && UA.indexOf('android') > 0;
 var isIOS = UA && /iphone|ipad|ipod|ios/.test(UA);
 var isChrome = UA && /chrome\/\d+/.test(UA) && !isEdge;
 
@@ -516,18 +519,14 @@ var supportsPassive = false;
 if (inBrowser) {
   try {
     var opts = {};
-    Object.defineProperty(
-      opts,
-      "passive",
-      ({
-        get: function get() {
-          /* istanbul ignore next */
-          supportsPassive = true;
-        }
-      })
-    ); // https://github.com/facebook/flow/issues/285
-    window.addEventListener("test-passive", null, opts);
-  } catch (e) {}
+    Object.defineProperty(opts, 'passive', ({
+      get: function get() {
+        /* istanbul ignore next */
+        supportsPassive = true;
+      }
+    })); // https://github.com/facebook/flow/issues/285
+    window.addEventListener('test-passive', null, opts);
+  } catch (e) { }
 }
 
 // this needs to be lazy-evaled because vue may be required before
@@ -536,15 +535,15 @@ var _isServer;
 var isServerRendering = function () {
   if (_isServer === undefined) {
     /* istanbul ignore if */
-    if (!inBrowser && typeof global !== "undefined") {
+    if (!inBrowser && typeof global !== 'undefined') {
       // detect presence of vue-server-renderer and avoid
       // Webpack shimming the process
-      _isServer = global["process"].env.VUE_ENV === "server";
+      _isServer = global['process'].env.VUE_ENV === 'server';
     } else {
       _isServer = false;
     }
   }
-  return _isServer;
+  return _isServer
 };
 
 // detect devtools
@@ -552,19 +551,17 @@ var isServerRendering = function () {
 
 /* istanbul ignore next */
 function isNative(Ctor) {
-  return typeof Ctor === "function" && /native code/.test(Ctor.toString());
+  return typeof Ctor === 'function' && /native code/.test(Ctor.toString())
 }
 
 var hasSymbol =
-  typeof Symbol !== "undefined" &&
-  isNative(Symbol) &&
-  typeof Reflect !== "undefined" &&
-  isNative(Reflect.ownKeys);
+  typeof Symbol !== 'undefined' && isNative(Symbol) &&
+  typeof Reflect !== 'undefined' && isNative(Reflect.ownKeys);
 
 /**
  * Defer a task to execute it asynchronously.
  */
-var nextTick = (function() {
+var nextTick = (function () {
   var callbacks = [];
   var pending = false;
   var timerFunc;
@@ -585,11 +582,9 @@ var nextTick = (function() {
   // completely stops working after triggering a few times... so, if native
   // Promise is available, we will use it:
   /* istanbul ignore if */
-  if (typeof Promise !== "undefined" && isNative(Promise)) {
+  if (typeof Promise !== 'undefined' && isNative(Promise)) {
     var p = Promise.resolve();
-    var logError = function (err) {
-      console.error(err);
-    };
+    var logError = function (err) { console.error(err); };
     timerFunc = function () {
       p.then(nextTickHandler).catch(logError);
       // in problematic UIWebViews, Promise.then doesn't completely break, but
@@ -599,12 +594,11 @@ var nextTick = (function() {
       // "force" the microtask queue to be flushed by adding an empty timer.
       if (isIOS) { setTimeout(noop); }
     };
-  } else if (
-    typeof MutationObserver !== "undefined" &&
-    (isNative(MutationObserver) ||
-      // PhantomJS and iOS 7.x
-      MutationObserver.toString() === "[object MutationObserverConstructor]")
-  ) {
+  } else if (typeof MutationObserver !== 'undefined' && (
+    isNative(MutationObserver) ||
+    // PhantomJS and iOS 7.x
+    MutationObserver.toString() === '[object MutationObserverConstructor]'
+  )) {
     // use MutationObserver where native Promise is not available,
     // e.g. PhantomJS IE11, iOS7, Android 4.4
     var counter = 1;
@@ -618,19 +612,11 @@ var nextTick = (function() {
       textNode.data = String(counter);
     };
   } else {
-    if (Promise !== undefined) {
-      // If Promise is supported for android
-      timerFunc = function() {
-        var p = Promise.resolve();
-        p.then(nextTickHandler).catch(logError);
-      };
-    } else {
-      // fallback to setTimeout
-      /* istanbul ignore next */
-      timerFunc = function() {
-        setTimeout(nextTickHandler, 0);
-      };
-    }
+    // fallback to setTimeout
+    /* istanbul ignore next */
+    timerFunc = function () {
+      setTimeout(nextTickHandler, 0);
+    };
   }
 
   return function queueNextTick(cb, ctx) {
@@ -640,7 +626,7 @@ var nextTick = (function() {
         try {
           cb.call(ctx);
         } catch (e) {
-          handleError(e, ctx, "nextTick");
+          handleError(e, ctx, 'nextTick');
         }
       } else if (_resolve) {
         _resolve(ctx);
@@ -650,17 +636,17 @@ var nextTick = (function() {
       pending = true;
       timerFunc();
     }
-    if (!cb && typeof Promise !== "undefined") {
+    if (!cb && typeof Promise !== 'undefined') {
       return new Promise(function (resolve, reject) {
         _resolve = resolve;
-      });
+      })
     }
-  };
+  }
 })();
 
 var _Set;
 /* istanbul ignore if */
-if (typeof Set !== "undefined" && isNative(Set)) {
+if (typeof Set !== 'undefined' && isNative(Set)) {
   // use native Set when available.
   _Set = Set;
 } else {
@@ -669,13 +655,13 @@ if (typeof Set !== "undefined" && isNative(Set)) {
     function Set() {
       this.set = Object.create(null);
     }
-    Set.prototype.has = function has (key) {
-      return this.set[key] === true;
+    Set.prototype.has = function has(key) {
+      return this.set[key] === true
     };
-    Set.prototype.add = function add (key) {
+    Set.prototype.add = function add(key) {
       this.set[key] = true;
     };
-    Set.prototype.clear = function clear () {
+    Set.prototype.clear = function clear() {
       this.set = Object.create(null);
     };
 
@@ -692,26 +678,26 @@ var uid = 0;
  * A dep is an observable that can have multiple
  * directives subscribing to it.
  */
-var Dep = function Dep () {
+var Dep = function Dep() {
   this.id = uid++;
   this.subs = [];
 };
 
-Dep.prototype.addSub = function addSub (sub) {
+Dep.prototype.addSub = function addSub(sub) {
   this.subs.push(sub);
 };
 
-Dep.prototype.removeSub = function removeSub (sub) {
+Dep.prototype.removeSub = function removeSub(sub) {
   remove(this.subs, sub);
 };
 
-Dep.prototype.depend = function depend () {
+Dep.prototype.depend = function depend() {
   if (Dep.target) {
     Dep.target.addDep(this);
   }
 };
 
-Dep.prototype.notify = function notify () {
+Dep.prototype.notify = function notify() {
   // stabilize the subscriber list first
   var subs = this.subs.slice();
   for (var i = 0, l = subs.length; i < l; i++) {
@@ -719,9 +705,6 @@ Dep.prototype.notify = function notify () {
   }
 };
 
-// the current target watcher being evaluated.
-// this is globally unique because there could be only one
-// watcher being evaluated at any time.
 Dep.target = null;
 
 /*
@@ -739,39 +722,39 @@ var arrayMethods = Object.create(arrayProto);[
   'sort',
   'reverse'
 ]
-.forEach(function (method) {
-  // cache original method
-  var original = arrayProto[method];
-  def(arrayMethods, method, function mutator () {
-    var arguments$1 = arguments;
+  .forEach(function (method) {
+    // cache original method
+    var original = arrayProto[method];
+    def(arrayMethods, method, function mutator() {
+      var arguments$1 = arguments;
 
-    // avoid leaking arguments:
-    // http://jsperf.com/closure-with-arguments
-    var i = arguments.length;
-    var args = new Array(i);
-    while (i--) {
-      args[i] = arguments$1[i];
-    }
-    var result = original.apply(this, args);
-    var ob = this.__ob__;
-    var inserted;
-    switch (method) {
-      case 'push':
-        inserted = args;
-        break
-      case 'unshift':
-        inserted = args;
-        break
-      case 'splice':
-        inserted = args.slice(2);
-        break
-    }
-    if (inserted) { ob.observeArray(inserted); }
-    // notify change
-    ob.dep.notify();
-    return result
+      // avoid leaking arguments:
+      // http://jsperf.com/closure-with-arguments
+      var i = arguments.length;
+      var args = new Array(i);
+      while (i--) {
+        args[i] = arguments$1[i];
+      }
+      var result = original.apply(this, args);
+      var ob = this.__ob__;
+      var inserted;
+      switch (method) {
+        case 'push':
+          inserted = args;
+          break
+        case 'unshift':
+          inserted = args;
+          break
+        case 'splice':
+          inserted = args.slice(2);
+          break
+      }
+      if (inserted) { ob.observeArray(inserted); }
+      // notify change
+      ob.dep.notify();
+      return result
+    });
   });
-});
 
 /*  */
 
@@ -794,7 +777,7 @@ var observerState = {
  * object's property keys into getter/setters that
  * collect dependencies and dispatches updates.
  */
-var Observer = function Observer (value) {
+var Observer = function Observer(value) {
   this.value = value;
   this.dep = new Dep();
   this.vmCount = 0;
@@ -815,7 +798,7 @@ var Observer = function Observer (value) {
  * getter/setters. This method should only be called when
  * value type is Object.
  */
-Observer.prototype.walk = function walk (obj) {
+Observer.prototype.walk = function walk(obj) {
   var keys = Object.keys(obj);
   for (var i = 0; i < keys.length; i++) {
     defineReactive$$1(obj, keys[i], obj[keys[i]]);
@@ -825,7 +808,7 @@ Observer.prototype.walk = function walk (obj) {
 /**
  * Observe a list of Array items.
  */
-Observer.prototype.observeArray = function observeArray (items) {
+Observer.prototype.observeArray = function observeArray(items) {
   for (var i = 0, l = items.length; i < l; i++) {
     observe(items[i]);
   }
@@ -837,7 +820,7 @@ Observer.prototype.observeArray = function observeArray (items) {
  * Augment an target Object or Array by intercepting
  * the prototype chain using __proto__
  */
-function protoAugment (target, src) {
+function protoAugment(target, src) {
   /* eslint-disable no-proto */
   target.__proto__ = src;
   /* eslint-enable no-proto */
@@ -848,7 +831,7 @@ function protoAugment (target, src) {
  * hidden properties.
  */
 /* istanbul ignore next */
-function copyAugment (target, src, keys) {
+function copyAugment(target, src, keys) {
   for (var i = 0, l = keys.length; i < l; i++) {
     var key = keys[i];
     def(target, key, src[key]);
@@ -860,7 +843,7 @@ function copyAugment (target, src, keys) {
  * returns the new observer if successfully observed,
  * or the existing observer if the value already has one.
  */
-function observe (value, asRootData) {
+function observe(value, asRootData) {
   if (!isObject(value)) {
     return
   }
@@ -885,7 +868,7 @@ function observe (value, asRootData) {
 /**
  * Define a reactive property on an Object.
  */
-function defineReactive$$1 (
+function defineReactive$$1(
   obj,
   key,
   val,
@@ -906,7 +889,7 @@ function defineReactive$$1 (
   Object.defineProperty(obj, key, {
     enumerable: true,
     configurable: true,
-    get: function reactiveGetter () {
+    get: function reactiveGetter() {
       var value = getter ? getter.call(obj) : val;
       if (Dep.target) {
         dep.depend();
@@ -919,7 +902,7 @@ function defineReactive$$1 (
       }
       return value
     },
-    set: function reactiveSetter (newVal) {
+    set: function reactiveSetter(newVal) {
       var value = getter ? getter.call(obj) : val;
       /* eslint-disable no-self-compare */
       if (newVal === value || (newVal !== newVal && value !== value)) {
@@ -945,7 +928,7 @@ function defineReactive$$1 (
  * triggers change notification if the property doesn't
  * already exist.
  */
-function set (target, key, val) {
+function set(target, key, val) {
   if (Array.isArray(target) && typeof key === 'number') {
     target.length = Math.max(target.length, key);
     target.splice(key, 1, val);
@@ -955,7 +938,7 @@ function set (target, key, val) {
     target[key] = val;
     return val
   }
-  var ob = (target ).__ob__;
+  var ob = (target).__ob__;
   if (target._isVue || (ob && ob.vmCount)) {
     process.env.NODE_ENV !== 'production' && warn(
       'Avoid adding reactive properties to a Vue instance or its root $data ' +
@@ -981,7 +964,7 @@ function set (target, key, val) {
  * Collect dependencies on array elements when the array is touched, since
  * we cannot intercept array element access like property getters.
  */
-function dependArray (value) {
+function dependArray(value) {
   for (var e = (void 0), i = 0, l = value.length; i < l; i++) {
     e = value[i];
     e && e.__ob__ && e.__ob__.dep.depend();
@@ -993,11 +976,6 @@ function dependArray (value) {
 
 /*  */
 
-/**
- * Option overwriting strategies are functions that handle
- * how to merge a parent option value and a child option
- * value into the final value.
- */
 var strats = config.optionMergeStrategies;
 
 /**
@@ -1018,7 +996,7 @@ if (process.env.NODE_ENV !== 'production') {
 /**
  * Helper that recursively merges two data objects together.
  */
-function mergeData (to, from) {
+function mergeData(to, from) {
   if (!from) { return to }
   var key, toVal, fromVal;
   var keys = Object.keys(from);
@@ -1065,14 +1043,14 @@ strats.data = function (
     // merged result of both functions... no need to
     // check if parentVal is a function here because
     // it has to be a function to pass previous merges.
-    return function mergedDataFn () {
+    return function mergedDataFn() {
       return mergeData(
         childVal.call(this),
         parentVal.call(this)
       )
     }
   } else if (parentVal || childVal) {
-    return function mergedInstanceDataFn () {
+    return function mergedInstanceDataFn() {
       // instance merge
       var instanceData = typeof childVal === 'function'
         ? childVal.call(vm)
@@ -1092,7 +1070,7 @@ strats.data = function (
 /**
  * Hooks and props are merged as arrays.
  */
-function mergeHook (
+function mergeHook(
   parentVal,
   childVal
 ) {
@@ -1116,7 +1094,7 @@ LIFECYCLE_HOOKS.forEach(function (hook) {
  * a three-way merge between constructor options, instance
  * options and parent options.
  */
-function mergeAssets (parentVal, childVal) {
+function mergeAssets(parentVal, childVal) {
   var res = Object.create(parentVal || null);
   return childVal
     ? extend(res, childVal)
@@ -1156,15 +1134,15 @@ strats.watch = function (parentVal, childVal) {
  * Other object hashes.
  */
 strats.props =
-strats.methods =
-strats.computed = function (parentVal, childVal) {
-  if (!childVal) { return Object.create(parentVal || null) }
-  if (!parentVal) { return childVal }
-  var ret = Object.create(null);
-  extend(ret, parentVal);
-  extend(ret, childVal);
-  return ret
-};
+  strats.methods =
+  strats.computed = function (parentVal, childVal) {
+    if (!childVal) { return Object.create(parentVal || null) }
+    if (!parentVal) { return childVal }
+    var ret = Object.create(null);
+    extend(ret, parentVal);
+    extend(ret, childVal);
+    return ret
+  };
 
 /**
  * Default strategy.
@@ -1176,8 +1154,7 @@ var defaultStrat = function (parentVal, childVal) {
 };
 
 /**
- * Merge two option objects into a new one.
- * Core utility used in both instantiation and inheritance.
+ * Validate component names
  */
 
 
@@ -1186,7 +1163,7 @@ var defaultStrat = function (parentVal, childVal) {
  * This function is used because child instances need access
  * to assets defined in its ancestor chain.
  */
-function resolveAsset (
+function resolveAsset(
   options,
   type,
   id,
@@ -1216,7 +1193,13 @@ function resolveAsset (
 
 /*  */
 
-function setSelected (el, binding, vm) {
+
+
+/**
+ * Get the default value of a prop.
+ */
+
+function setSelected(el, binding, vm) {
   var value = binding.value;
   var isMultiple = el.multiple;
   if (isMultiple && !Array.isArray(value)) {
@@ -1249,11 +1232,11 @@ function setSelected (el, binding, vm) {
   }
 }
 
-function setCheckBox (el, binding) {
+function setCheckBox(el, binding) {
   var value = binding.value;
   try {
     value = JSON.parse(value);
-  } catch (e) {}
+  } catch (e) { }
   if (value) {
     el.setAttribute('checked', value);
   } else {
@@ -1262,7 +1245,7 @@ function setCheckBox (el, binding) {
 }
 
 var model = {
-  bind: function bind$$1 (el, binding) {
+  bind: function bind$$1(el, binding) {
     if (el.tagName) {
       var lowerTagName = el.tagName.toLowerCase();
       if (lowerTagName === 'select') {
@@ -1274,7 +1257,7 @@ var model = {
       }
     }
   },
-  update: function update (el, binding) {
+  update: function update(el, binding) {
     if (el.tagName) {
       var lowerTagName = el.tagName.toLowerCase();
       if (lowerTagName === 'select') {
@@ -1294,10 +1277,7 @@ var index = {
 
 /*  */
 
-/**
- * Runtime helper for rendering v-for lists.
- */
-function renderList (
+function renderList(
   val,
   render
 ) {
@@ -1323,9 +1303,9 @@ function renderList (
   return ret
 }
 
-var CREATE_ELEMENT = "createElement";
-var COMPONENT = "Component";
-var HELPER_HEADER = "__react__vue__";
+var CREATE_ELEMENT = 'createElement';
+var COMPONENT = 'Component';
+var HELPER_HEADER = '__react__vue__';
 
 var COMMON = {
   'createElement': {
@@ -1446,7 +1426,7 @@ function renderSlot(names, children) {
   var hitSlot = {};
   var defaultSlot = [];
   if (children == null) {
-    return function () {};
+    return function () { }
   }
   if (!Array.isArray(children)) {
     children = [children];
@@ -1454,30 +1434,30 @@ function renderSlot(names, children) {
   children = children.filter(function (v) { return v != null; });
   children.forEach(function (v) {
     if (v.type === COMMON.template.type) {
-      if (v["data-slot"] === undefined) {
+      if (v['dataSlot'] === undefined) {
         defaultSlot.push(v.render);
       }
-      return;
+      return
     }
-    if (v.props === undefined || v.props["data-slot"] === undefined) {
+    if (v.props === undefined || v.props['dataSlot'] === undefined) {
       defaultSlot.push(v);
     }
   });
   names.forEach(function (v) {
     children.forEach(function (_v, _i) {
-      if (typeof _v === "string" || typeof _v === "number") {
-        return;
+      if (typeof _v === 'string' || typeof _v === 'number') {
+        return
       }
       if (_v.type === COMMON.template.type) {
-        if (v === _v["data-slot"]) {
+        if (v === _v['dataSlot']) {
           hitSlot[v] = _v.render;
         }
-        return;
+        return
       }
-      if (v === _v.props["data-slot"]) {
+      if (v === _v.props['dataSlot']) {
         hitSlot[v] = _v;
       }
-      return;
+      return
     });
   });
   function render(name, props) {
@@ -1487,24 +1467,24 @@ function renderSlot(names, children) {
     } else {
       target = hitSlot[name];
     }
-    if (typeof target === "function") {
-      return target(props);
+    if (typeof target === 'function') {
+      return target(props)
     } else if (Array.isArray(target)) {
       return target.map(function (v) {
-        if (typeof v === "function") {
-          return v(props);
+        if (typeof v === 'function') {
+          return v(props)
         } else {
-          return v;
+          return v
         }
-      });
+      })
     } else {
-      return target;
+      return target
     }
   }
-  return render;
+  return render
 }
 
-function bindWebClass (c) {
+function bindWebClass(c) {
   var type = Object.prototype.toString.call(c);
   if (type === '[object Object]') {
     return Object.keys(c).filter(function (k) {
@@ -1518,7 +1498,7 @@ function bindWebClass (c) {
   return c
 }
 
-function classBinding (c) {
+function classBinding(c) {
   var type = Object.prototype.toString.call(c);
   if (type === '[object Object]') {
     return Object.keys(c).filter(function (k) {
@@ -1534,22 +1514,20 @@ function classBinding (c) {
   return c
 }
 
-function bindNativeClass (obj) {
+function bindNativeClass(obj) {
   var this$1 = this;
 
   var arr = [];
   var style = [];
   if (obj.dynamicClass) {
-    console.log('obj.dynamicClass', obj.dynamicClass);
+    // console.log('obj.dynamicClass', obj.dynamicClass);
     arr = arr.concat(classBinding(obj.dynamicClass));
   }
   if (obj.staticClass) {
     arr = arr.concat(obj.staticClass.split(/\s+/));
   }
   arr.forEach(function (v) {
-    if (typeof this$1.css[v] === 'number') {
-      style.push(this$1.css[v]);
-    }
+    style.push(this$1.css[v]);
   });
   if (obj.parentClass) {
     style.push(obj.parentClass);
@@ -1575,7 +1553,7 @@ var normalize = cached(function (prop) {
   }
 });
 
-function bindWebStyle (styleBinding, staticStyle, showStyle) {
+function bindWebStyle(styleBinding, staticStyle, showStyle) {
   if (styleBinding === undefined) {
     styleBinding = {};
   }
@@ -1595,7 +1573,7 @@ function bindWebStyle (styleBinding, staticStyle, showStyle) {
   }
 }
 
-function bindNativeStyle (styleBinding, staticStyle, showStyle) {
+function bindNativeStyle(styleBinding, staticStyle, showStyle) {
   if (styleBinding === undefined) {
     styleBinding = {};
   }
@@ -1613,10 +1591,30 @@ function bindNativeStyle (styleBinding, staticStyle, showStyle) {
   }
 }
 
+function mergeNativeStyleAndNativeClass(nativeClass, nativeStyle) {
+  let resultant = [];
+  if (nativeClass) {
+    if (Object.prototype.toString.call(nativeClass) === '[object Array]') {
+      nativeClass.forEach(function (classObj) {
+        resultant.push(classObj);
+      });
+    } else if (Object.prototype.toString.call(nativeClass) === '[object Object]') {
+      resultant.push(nativeClass);
+    }
+  } if (nativeStyle) {
+    if (Object.prototype.toString.call(nativeStyle) === '[object Array]') {
+      nativeStyle.forEach(function (classObj) {
+        resultant.push(classObj);
+      });
+    } else if (Object.prototype.toString.call(nativeStyle) === '[object Object]') {
+      resultant.push(nativeStyle);
+    }
+  }
+  // console.log('resultant merged style props', resultant);
+  return resultant;
+}
+
 /*  */
-/**
- * Runtime helper for checking keyCodes.
- */
 function checkKeyCodes(
   vm,
   eventKeyCode,
@@ -1627,25 +1625,24 @@ function checkKeyCodes(
   try {
     configKeyCodes = vm.$options._base.config.keyCodes;
   } catch (e) {
-    warn(
-      "vue-native checkKeyCodes vm.$options._base.config.keyCodes catch error"
-    );
+    warn('react-vue checkKeyCodes vm.$options._base.config.keyCodes catch error');
   }
   var keyCodes = configKeyCodes[key] || builtInAlias;
   if (Array.isArray(keyCodes)) {
-    return keyCodes.indexOf(eventKeyCode) === -1;
+    return keyCodes.indexOf(eventKeyCode) === -1
   } else {
-    return keyCodes !== eventKeyCode;
+    return keyCodes !== eventKeyCode
   }
 }
 
-function template (props) {
+function template(props) {
   return props.children
 }
 
-function event (fn) {
+function event(fn) {
+    console.log('set function:', fn)
   if (Array.isArray(fn)) {
-    return function () {
+    return function ($event) {
       var arguments$1 = arguments;
       var this$1 = this;
 
@@ -1656,7 +1653,7 @@ function event (fn) {
   }
 }
 
-function mergeCssModule (computed, cssModules) {
+function mergeCssModule(computed, cssModules) {
   var _computed = Object.create(computed || null);
   Object.keys(cssModules).forEach(function (key) {
     var module = cssModules[key];
@@ -1682,39 +1679,34 @@ function isObjectShallowModified(prev, next) {
   // }
   // return false
   if (prev.children !== undefined || next.children !== undefined) {
-    return true;
+    return true
   }
   for (var k in next) {
-    if (typeof next[k] !== "object") {
+    if (typeof next[k] !== 'object') {
       if (next[k] !== prev[k]) {
-        return true;
+        return true
       }
     }
   }
-  return false;
+  return false
 }
 
 var hasOwnProperty$1 = Object.prototype.hasOwnProperty;
 function hasOwn$1(obj, key) {
-  return hasOwnProperty$1.call(obj, key);
+  return hasOwnProperty$1.call(obj, key)
 }
 
 function mergeCssModule$1(computed, cssModules) {
   var _computed = Object.create(computed || null);
-  Object.keys(cssModules).forEach(function(key) {
+  Object.keys(cssModules).forEach(function (key) {
     var module = cssModules[key];
-    _computed[key] = function() {
-      return module;
-    };
+    _computed[key] = function () { return module };
   });
-  return _computed;
+  return _computed
 }
 
 function pascalCaseTag(tag) {
-  return tag
-    .split("-")
-    .map(function (v) { return v.replace(/^[a-z]/, function (s) { return s.toUpperCase(); }); })
-    .join("");
+  return tag.split('-').map(function (v) { return v.replace(/^[a-z]/, function (s) { return s.toUpperCase(); }); }).join('')
 }
 
 /**
@@ -1732,15 +1724,15 @@ function handleComponents(components) {
       }
     }
   }
-  return components;
+  return components
 }
 
 function handleDirectives(directives) {
   var obj = {};
   for (var k in directives) {
-    obj[k.toLowerCase().replace(/[^a-z]/g, "")] = directives[k];
+    obj[k.toLowerCase().replace(/[^a-z]/g, '')] = directives[k];
   }
-  return obj;
+  return obj
 }
 
 /**
@@ -1750,21 +1742,21 @@ function handleDirectives(directives) {
 function getSlots(children) {
   var slots = {};
   if (children == null) {
-    return slots;
+    return slots
   }
   if (!Array.isArray(children)) {
     children = [children];
   }
   children = children.filter(function (v) { return v != null; });
   children.forEach(function (v, _i) {
-    if (typeof v === "string" || typeof v === "number" || v === null) {
+    if (typeof v === 'string' || typeof v === 'number' || v === null) {
       slots.default = slots.default || [];
       slots.default.push(v);
     } else if (v.type === COMMON.template.type) {
-      slots[v["data-slot"]] = slots[v["data-slot"]] || [];
-      slots[v["data-slot"]].push(v.render);
+      slots[v['data-slot']] = slots[v['data-slot']] || [];
+      slots[v['data-slot']].push(v.render);
     } else if (v.props) {
-      var dataSlot = v.props["data-slot"];
+      var dataSlot = v.props['data-slot'];
       if (dataSlot == null) {
         slots.default = slots.default || [];
         slots.default.push(v);
@@ -1774,23 +1766,21 @@ function getSlots(children) {
       }
     }
   });
-  return slots;
+  return slots
 }
 
 function filterCustomEvent(props) {
-  return Object.keys(props)
-    .filter(function (v) {
-      return v.indexOf(COMMON.customEvent.name) === 0;
-    })
-    .map(function (v) {
-      return {
-        name: v.replace(COMMON.customEvent.name, ""),
-        handle: props[v]
-      };
-    });
+  return Object.keys(props).filter(function (v) {
+    return v.indexOf(COMMON.customEvent.name) === 0
+  }).map(function (v) {
+    return {
+      name: v.replace(COMMON.customEvent.name, ''),
+      handle: props[v]
+    }
+  })
 }
 
-function dynamicComponent (vm, name) {
+function dynamicComponent(vm, name) {
   var componentName;
   if (typeof name === 'string') {
     componentName = vm.$options.components[pascalCaseTag(name)];
@@ -1802,10 +1792,7 @@ function dynamicComponent (vm, name) {
 
 /*  */
 
-/**
- * Runtime helper for resolving filters
- */
-function resolveFilter (id) {
+function resolveFilter(id) {
   return resolveAsset(this.$options, 'filters', id, true) || identity
 }
 
@@ -2540,8 +2527,6 @@ Object.keys(reactProps).map(function (v) {
 
 /*  */
 
-// these are reserved for web because they are directly compiled away
-// during template compilation
 var isReservedAttr = makeMap('style,class');
 
 // attributes that should be using props for binding
@@ -2564,47 +2549,47 @@ var isBooleanAttr = makeMap(
 
 
 var isUnaryTag = makeMap(
-  "area,base,br,col,embed,frame,hr,img,input,isindex,keygen," +
-    "link,meta,param,source,track,wbr"
+  'area,base,br,col,embed,frame,hr,img,input,isindex,keygen,' +
+  'link,meta,param,source,track,wbr'
 );
 
 var isHTMLTag = makeMap(
-  "html,body,base,head,link,meta,style,title," +
-    "address,article,aside,footer,header,h1,h2,h3,h4,h5,h6,hgroup,nav,section," +
-    "div,dd,dl,dt,figcaption,figure,hr,img,li,main,ol,p,pre,ul," +
-    "a,b,abbr,bdi,bdo,br,cite,code,data,dfn,em,i,kbd,mark,q,rp,rt,rtc,ruby," +
-    "s,samp,small,span,strong,sub,sup,time,u,var,wbr,area,audio,map,track,video," +
-    "embed,object,param,source,canvas,script,noscript,del,ins," +
-    "caption,col,colgroup,table,thead,tbody,td,th,tr," +
-    "button,datalist,fieldset,form,input,label,legend,meter,optgroup,option," +
-    "output,progress,select,textarea," +
-    "details,dialog,menu,menuitem,summary," +
-    "content,element,shadow,template"
+  'html,body,base,head,link,meta,style,title,' +
+  'address,article,aside,footer,header,h1,h2,h3,h4,h5,h6,hgroup,nav,section,' +
+  'div,dd,dl,dt,figcaption,figure,hr,img,li,main,ol,p,pre,ul,' +
+  'a,b,abbr,bdi,bdo,br,cite,code,data,dfn,em,i,kbd,mark,q,rp,rt,rtc,ruby,' +
+  's,samp,small,span,strong,sub,sup,time,u,var,wbr,area,audio,map,track,video,' +
+  'embed,object,param,source,canvas,script,noscript,del,ins,' +
+  'caption,col,colgroup,table,thead,tbody,td,th,tr,' +
+  'button,datalist,fieldset,form,input,label,legend,meter,optgroup,option,' +
+  'output,progress,select,textarea,' +
+  'details,dialog,menu,menuitem,summary,' +
+  'content,element,shadow,template'
 );
 
 // this map is intentionally selective, only covering SVG elements that may
 // contain child elements.
 var isSVG = makeMap(
-  "svg,animate,circle,clippath,cursor,defs,desc,ellipse,filter,font-face," +
-    "foreignObject,g,glyph,image,line,marker,mask,missing-glyph,path,pattern," +
-    "polygon,polyline,rect,switch,symbol,text,textpath,tspan,use,view",
+  'svg,animate,circle,clippath,cursor,defs,desc,ellipse,filter,font-face,' +
+  'foreignObject,g,glyph,image,line,marker,mask,missing-glyph,path,pattern,' +
+  'polygon,polyline,rect,switch,symbol,text,textpath,tspan,use,view',
   true
 );
 
 // Elements that you can, intentionally, leave open
 // (and which close themselves)
 var canBeLeftOpenTag = makeMap(
-  "colgroup,dd,dt,li,options,p,td,tfoot,th,thead,tr,source"
+  'colgroup,dd,dt,li,options,p,td,tfoot,th,thead,tr,source'
 );
 
 // HTML5 tags https://html.spec.whatwg.org/multipage/indices.html#elements-3
 // Phrasing Content https://html.spec.whatwg.org/multipage/dom.html#phrasing-content
 var isNonPhrasingTag = makeMap(
-  "address,article,aside,base,blockquote,body,caption,col,colgroup,dd," +
-    "details,dialog,div,dl,dt,fieldset,figcaption,figure,footer,form," +
-    "h1,h2,h3,h4,h5,h6,head,header,hgroup,hr,html,legend,li,menuitem,meta," +
-    "optgroup,option,param,rp,rt,source,style,summary,tbody,td,tfoot,th,thead," +
-    "title,tr,track"
+  'address,article,aside,base,blockquote,body,caption,col,colgroup,dd,' +
+  'details,dialog,div,dl,dt,fieldset,figcaption,figure,footer,form,' +
+  'h1,h2,h3,h4,h5,h6,head,header,hgroup,hr,html,legend,li,menuitem,meta,' +
+  'optgroup,option,param,rp,rt,source,style,summary,tbody,td,tfoot,th,thead,' +
+  'title,tr,track'
 );
 
 var buildInTags = [
@@ -2616,24 +2601,20 @@ var buildInTags = [
   WEB.inputComponent.component
 ];
 
-var isBuildInTag = makeMap(buildInTags.join(","));
+var isBuildInTag = makeMap(buildInTags.join(','));
 
 
 
 var isReservedTag = function (tag) {
-  return isHTMLTag(tag) || isSVG(tag);
+  return isHTMLTag(tag) || isSVG(tag)
 };
 
 function handleProps(props, tag) {
   var handledProps = {};
-  if (typeof tag === "string" && isReservedTag(tag)) {
+  if (typeof tag === 'string' && isReservedTag(tag)) {
     for (var key in props) {
       var prop = propertyMap[key.toLowerCase()];
-      if (
-        prop &&
-        props[key] !== undefined &&
-        key.indexOf(HELPER_HEADER) !== 0
-      ) {
+      if (prop && props[key] !== undefined && key.indexOf(HELPER_HEADER) !== 0) {
         handledProps[prop] = props[key];
       }
     }
@@ -2643,10 +2624,10 @@ function handleProps(props, tag) {
   if (isUnaryTag(tag)) {
     delete handledProps.children;
   }
-  return handledProps;
+  return handledProps
 }
 
-function mergeProps () {
+function mergeProps() {
   var this$1 = this;
 
   var args = Array.prototype.slice.call(arguments, 0).filter(function (v) { return v; });
@@ -2659,7 +2640,7 @@ function mergeProps () {
       obj[k].push(o[k]);
     });
   });
-  var loop = function ( k ) {
+  var loop = function (k) {
     var l = obj[k].length;
     if (l === 1) {
       obj[k] = obj[k][0];
@@ -2680,15 +2661,15 @@ function mergeProps () {
     }
   };
 
-  for (var k in obj) loop( k );
+  for (var k in obj) loop(k);
   return obj
 }
 
 /**
- * 
+ *
  */
 
-function buildComponent (render, options, config) {
+function buildComponent(render, options, config) {
   var Component = config.Component;
   var PropTypes = config.PropTypes;
   var Vue = config.Vue;
@@ -2697,7 +2678,7 @@ function buildComponent (render, options, config) {
     options.computed = mergeCssModule$1(options.computed, cssModules);
   }
   var ReactVueComponent = (function (Component) {
-    function ReactVueComponent (props) {
+    function ReactVueComponent(props) {
       Component.call(this, props);
       this._ref = null;
       this.eventOnceUid = [];
@@ -2711,14 +2692,14 @@ function buildComponent (render, options, config) {
       this.beforeDestroy = [];
     }
 
-    if ( Component ) ReactVueComponent.__proto__ = Component;
-    ReactVueComponent.prototype = Object.create( Component && Component.prototype );
+    if (Component) ReactVueComponent.__proto__ = Component;
+    ReactVueComponent.prototype = Object.create(Component && Component.prototype);
     ReactVueComponent.prototype.constructor = ReactVueComponent;
 
     /**
      * children can access parent instance by 'this.context.owner'
      */
-    ReactVueComponent.prototype.getChildContext = function getChildContext () {
+    ReactVueComponent.prototype.getChildContext = function getChildContext() {
       return {
         owner: this
       }
@@ -2727,7 +2708,7 @@ function buildComponent (render, options, config) {
     /**
      * for event modifiers v-on:xxx.once
      */
-    ReactVueComponent.prototype.setEventOnce = function setEventOnce (fn) {
+    ReactVueComponent.prototype.setEventOnce = function setEventOnce(fn) {
       var this$1 = this;
 
       var name = fn.name;
@@ -2739,7 +2720,7 @@ function buildComponent (render, options, config) {
       }
     };
 
-    ReactVueComponent.prototype.setRootRef = function setRootRef (ref) {
+    ReactVueComponent.prototype.setRootRef = function setRootRef(ref) {
       if (ref) {
         ref = ref._ref || ref;
         this._ref = ref;
@@ -2747,7 +2728,7 @@ function buildComponent (render, options, config) {
       }
     };
 
-    ReactVueComponent.prototype.setRef = function setRef (ref, text, inFor) {
+    ReactVueComponent.prototype.setRef = function setRef(ref, text, inFor) {
       if (ref) {
         // for buildin component, we set ref to his hold node directly
         // it means the buildin componet would be the end of $refs chain
@@ -2764,7 +2745,7 @@ function buildComponent (render, options, config) {
       }
     };
 
-    ReactVueComponent.prototype.buildVM = function buildVM (options) {
+    ReactVueComponent.prototype.buildVM = function buildVM(options) {
       // set this property to prevent runtime error in vue
       render._withStripped = true;
 
@@ -2800,7 +2781,7 @@ function buildComponent (render, options, config) {
       return vm
     };
 
-    ReactVueComponent.prototype.componentWillMount = function componentWillMount () {
+    ReactVueComponent.prototype.componentWillMount = function componentWillMount() {
       var this$1 = this;
 
       this.vm = this.buildVM(options);
@@ -2814,34 +2795,34 @@ function buildComponent (render, options, config) {
       this.beforeMount.forEach(function (v) { return v.call(this$1.vm); });
     };
 
-    ReactVueComponent.prototype.componentDidMount = function componentDidMount () {
+    ReactVueComponent.prototype.componentDidMount = function componentDidMount() {
       var this$1 = this;
 
       this.vm.$nextTick(function () { return this$1.mounted.forEach(function (v) { return v.call(this$1.vm); }); });
     };
-    ReactVueComponent.prototype.componentWillUpdate = function componentWillUpdate () {
+    ReactVueComponent.prototype.componentWillUpdate = function componentWillUpdate() {
       var this$1 = this;
 
       this.beforeUpdate.forEach(function (v) { return v.call(this$1.vm); });
     };
-    ReactVueComponent.prototype.componentDidUpdate = function componentDidUpdate () {
+    ReactVueComponent.prototype.componentDidUpdate = function componentDidUpdate() {
       var this$1 = this;
 
       this.updated.forEach(function (v) { return v.call(this$1.vm); });
     };
-    ReactVueComponent.prototype.componentWillUnmount = function componentWillUnmount () {
+    ReactVueComponent.prototype.componentWillUnmount = function componentWillUnmount() {
       var this$1 = this;
 
       this.beforeDestroy.forEach(function (v) { return v.call(this$1.vm); });
     };
-    ReactVueComponent.prototype.componentWillReceiveProps = function componentWillReceiveProps (nextProps) {
+    ReactVueComponent.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
       this.vm._props && Object.assign(this.vm._props, nextProps);
       this.vm.$slots = getSlots(nextProps.children);
     };
-    ReactVueComponent.prototype.shouldComponentUpdate = function shouldComponentUpdate (nextProps) {
+    ReactVueComponent.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps) {
       return isObjectShallowModified(this.props, nextProps)
     };
-    ReactVueComponent.prototype.render = function render$1 () {
+    ReactVueComponent.prototype.render = function render$1() {
       return render ? render.call(this, this.vm._renderProxy) : null
     };
 
@@ -2859,9 +2840,9 @@ function buildComponent (render, options, config) {
   return ReactVueComponent
 }
 
-function buildMixin (Component) {
+function buildMixin(Component) {
   return (function (Component) {
-    function Mixin (props) {
+    function Mixin(props) {
       Component.call(this, props);
       /**
        * for vue, every component should have a ref to represent node element
@@ -2869,11 +2850,11 @@ function buildMixin (Component) {
       this._ref = null;
     }
 
-    if ( Component ) Mixin.__proto__ = Component;
-    Mixin.prototype = Object.create( Component && Component.prototype );
+    if (Component) Mixin.__proto__ = Component;
+    Mixin.prototype = Object.create(Component && Component.prototype);
     Mixin.prototype.constructor = Mixin;
 
-    Mixin.prototype.setRef = function setRef (ref) {
+    Mixin.prototype.setRef = function setRef(ref) {
       if (ref) {
         if (ref._reactInternalInstance && ref.vm === undefined) {
           this._ref = ref._ref || ref;
@@ -2883,7 +2864,7 @@ function buildMixin (Component) {
       }
     };
 
-    Mixin.prototype.buildStateProps = function buildStateProps (props) {
+    Mixin.prototype.buildStateProps = function buildStateProps(props) {
       var this$1 = this;
 
       var stateProps = Object.assign({}, props);
@@ -2918,11 +2899,10 @@ function triggerDirective(newData, oldData, vm, ref) {
   }
 
   if (!directive) {
-    return;
+    return
   }
 
-  if (newData && oldData) {
-    // update
+  if (newData && oldData) { // update
     binding = {
       name: newData.name,
       value: newData.value,
@@ -2932,13 +2912,12 @@ function triggerDirective(newData, oldData, vm, ref) {
       modifiers: newData.modifiers
     };
     args = [ref, binding, vnode];
-    if (typeof directive === "function") {
+    if (typeof directive === 'function') {
       directive.apply(vm, args);
-    } else if (typeof directive.update === "function") {
+    } else if (typeof directive.update === 'function') {
       directive.update.apply(vm, args);
     }
-  } else if (newData && !oldData) {
-    // bind
+  } else if (newData && !oldData) { // bind
     binding = {
       name: newData.name,
       value: newData.value,
@@ -2947,13 +2926,12 @@ function triggerDirective(newData, oldData, vm, ref) {
       modifiers: newData.modifiers
     };
     args = [ref, binding, vnode];
-    if (typeof directive === "function") {
+    if (typeof directive === 'function') {
       directive.apply(vm, args);
-    } else if (typeof directive.bind === "function") {
+    } else if (typeof directive.bind === 'function') {
       directive.bind.apply(vm, args);
     }
-  } else if (!newData && oldData) {
-    // unbind
+  } else if (!newData && oldData) { // unbind
     binding = {
       name: oldData.name,
       value: oldData.value,
@@ -2962,7 +2940,7 @@ function triggerDirective(newData, oldData, vm, ref) {
       modifiers: oldData.modifiers
     };
     args = [ref, binding, vnode];
-    if (typeof directive.unbind === "function") {
+    if (typeof directive.unbind === 'function') {
       directive.unbind.apply(vm, args);
     }
   }
@@ -2979,10 +2957,10 @@ function buildDirective(Component, createElement) {
       };
     }
 
-    if ( superclass ) Directive.__proto__ = superclass;
-    Directive.prototype = Object.create( superclass && superclass.prototype );
+    if (superclass) Directive.__proto__ = superclass;
+    Directive.prototype = Object.create(superclass && superclass.prototype);
     Directive.prototype.constructor = Directive;
-    Directive.prototype.setDirectiveLifeCycle = function setDirectiveLifeCycle (newProps, oldProps) {
+    Directive.prototype.setDirectiveLifeCycle = function setDirectiveLifeCycle(newProps, oldProps) {
       var this$1 = this;
 
       var context;
@@ -3004,76 +2982,64 @@ function buildDirective(Component, createElement) {
             if (newDirective.name === oldDirective.name) {
               newDirectivesClone.splice(newIndex, 1, undefined);
               oldDirectivesClone.splice(oldIndex, 1, undefined);
-              triggerDirective(
-                newDirective,
-                oldDirective,
-                context.vm,
-                this$1._ref
-              ); // update
+              triggerDirective(newDirective, oldDirective, context.vm, this$1._ref); // update
             }
           });
         });
-        newDirectivesClone.forEach(function (v) {
-          // bind
+        newDirectivesClone.forEach(function (v) { // bind
           v && triggerDirective(v, null, context.vm, this$1._ref);
         });
-        oldDirectivesClone.forEach(function (v) {
-          // unbind
+        oldDirectivesClone.forEach(function (v) { // unbind
           v && triggerDirective(null, v, context.vm, this$1._ref);
         });
       }
     };
-    Directive.prototype.getDirectiveName = function getDirectiveName (props) {
+    Directive.prototype.getDirectiveName = function getDirectiveName(props) {
       if (props[COMMON.directive.name]) {
-        return props[COMMON.directive.name].map(function (v) { return v.name; });
+        return props[COMMON.directive.name].map(function (v) { return v.name; })
       } else {
-        return [];
+        return []
       }
     };
-    Directive.prototype.buildInHandle = function buildInHandle (props) {
+    Directive.prototype.buildInHandle = function buildInHandle(props) {
       var this$1 = this;
 
       var names = this.getDirectiveName(props);
       var stateProps = this.buildStateProps(props);
-      if (names.indexOf("model") !== -1) {
-        var onChangeFn =
-          stateProps.onChange || stateProps.onInput || function() {};
+      if (names.indexOf('model') !== -1) {
+        var onChangeFn = stateProps.onChange || stateProps.onInput || function () { };
         stateProps.onChange = function (event) {
           this$1.setState({
             props: Object.assign({}, this$1.state.props, {
               value: event.target.value
             })
           });
-          return onChangeFn(event);
+          return onChangeFn(event)
         };
       }
       this.setState({
         props: handleProps(stateProps, props[COMMON.directive.tag])
       });
     };
-    Directive.prototype.componentWillMount = function componentWillMount () {
+    Directive.prototype.componentWillMount = function componentWillMount() {
       this.buildInHandle(this.props);
     };
-    Directive.prototype.componentDidMount = function componentDidMount () {
+    Directive.prototype.componentDidMount = function componentDidMount() {
       this.setDirectiveLifeCycle(this.props);
     };
-    Directive.prototype.componentWillReceiveProps = function componentWillReceiveProps (nextProps) {
+    Directive.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
       this.buildInHandle(nextProps);
       this.setDirectiveLifeCycle(nextProps, this.props);
     };
-    Directive.prototype.componentWillUnmount = function componentWillUnmount () {
+    Directive.prototype.componentWillUnmount = function componentWillUnmount() {
       this.setDirectiveLifeCycle(null, this.props);
     };
-    Directive.prototype.render = function render () {
-      return createElement(
-        this.props[COMMON.directive.tag],
-        this.state.props,
-        this.state.props.children
-      );
+    Directive.prototype.render = function render() {
+      return createElement(this.props[COMMON.directive.tag], this.state.props, this.state.props.children)
     };
 
     return Directive;
-  }(buildMixin.apply(this, arguments)));
+  }(buildMixin.apply(this, arguments)))
 }
 
 /*  */
@@ -3082,7 +3048,7 @@ function buildDirective(Component, createElement) {
  * Add class with compatibility for SVG since classList is not supported on
  * SVG elements in IE
  */
-function addClass (el, cls) {
+function addClass(el, cls) {
   /* istanbul ignore if */
   if (!cls || !(cls = cls.trim())) {
     return
@@ -3107,7 +3073,7 @@ function addClass (el, cls) {
  * Remove class with compatibility for SVG since classList is not supported on
  * SVG elements in IE
  */
-function removeClass (el, cls) {
+function removeClass(el, cls) {
   /* istanbul ignore if */
   if (!cls || !(cls = cls.trim())) {
     return
@@ -3132,7 +3098,7 @@ function removeClass (el, cls) {
 
 /*  */
 
-function resolveTransition (def$$1) {
+function resolveTransition(def$$1) {
   if (!def$$1) {
     return
   }
@@ -3188,7 +3154,7 @@ var raf = inBrowser && window.requestAnimationFrame
   ? window.requestAnimationFrame.bind(window)
   : setTimeout;
 
-function nextFrame (fn) {
+function nextFrame(fn) {
   raf(function () {
     raf(fn);
   });
@@ -3198,7 +3164,7 @@ function nextFrame (fn) {
 
 
 
-function whenTransitionEnds (
+function whenTransitionEnds(
   el,
   expectedType,
   cb
@@ -3231,7 +3197,7 @@ function whenTransitionEnds (
 
 var transformRE = /\b(transform|all)(,|$)/;
 
-function getTransitionInfo (el, expectedType) {
+function getTransitionInfo(el, expectedType) {
   var styles = window.getComputedStyle(el);
   var transitionDelays = styles[transitionProp + 'Delay'].split(', ');
   var transitionDurations = styles[transitionProp + 'Duration'].split(', ');
@@ -3280,7 +3246,7 @@ function getTransitionInfo (el, expectedType) {
   }
 }
 
-function getTimeout (delays, durations) {
+function getTimeout(delays, durations) {
   /* istanbul ignore next */
   while (delays.length < durations.length) {
     delays = delays.concat(delays);
@@ -3291,13 +3257,13 @@ function getTimeout (delays, durations) {
   }))
 }
 
-function toMs (s) {
+function toMs(s) {
   return Number(s.slice(0, -1)) * 1000
 }
 
-function buildWebEmptyComponent (Component, createElement) {
+function buildWebEmptyComponent(Component, createElement) {
   return (function (Component) {
-    function EmptyComponent (props) {
+    function EmptyComponent(props) {
       Component.call(this, props);
       this._ref = null;
       this.state = {
@@ -3305,13 +3271,13 @@ function buildWebEmptyComponent (Component, createElement) {
       };
     }
 
-    if ( Component ) EmptyComponent.__proto__ = Component;
-    EmptyComponent.prototype = Object.create( Component && Component.prototype );
+    if (Component) EmptyComponent.__proto__ = Component;
+    EmptyComponent.prototype = Object.create(Component && Component.prototype);
     EmptyComponent.prototype.constructor = EmptyComponent;
-    EmptyComponent.prototype.setRef = function setRef (ref) {
+    EmptyComponent.prototype.setRef = function setRef(ref) {
       this._ref = ref;
     };
-    EmptyComponent.prototype.buildStateProps = function buildStateProps (props) {
+    EmptyComponent.prototype.buildStateProps = function buildStateProps(props) {
       var this$1 = this;
 
       var stateProps = Object.assign({}, props);
@@ -3326,17 +3292,17 @@ function buildWebEmptyComponent (Component, createElement) {
       };
       return stateProps
     };
-    EmptyComponent.prototype.componentWillMount = function componentWillMount () {
+    EmptyComponent.prototype.componentWillMount = function componentWillMount() {
       this.setState({
         props: this.buildStateProps(this.props)
       });
     };
-    EmptyComponent.prototype.componentWillReceiveProps = function componentWillReceiveProps (nextProps) {
+    EmptyComponent.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
       this.setState({
         props: this.buildStateProps(nextProps)
       });
     };
-    EmptyComponent.prototype.unwrap = function unwrap (wrapper) {
+    EmptyComponent.prototype.unwrap = function unwrap(wrapper) {
       if (wrapper.parentNode) {
         var docFrag = document.createDocumentFragment();
         while (wrapper.firstChild) {
@@ -3346,13 +3312,13 @@ function buildWebEmptyComponent (Component, createElement) {
         wrapper.parentNode.replaceChild(docFrag, wrapper);
       }
     };
-    EmptyComponent.prototype.componentDidMount = function componentDidMount () {
+    EmptyComponent.prototype.componentDidMount = function componentDidMount() {
       // this.unwrap(this._ref)
     };
-    EmptyComponent.prototype.componentDidUpdate = function componentDidUpdate () {
+    EmptyComponent.prototype.componentDidUpdate = function componentDidUpdate() {
       // this.unwrap(this._ref)
     };
-    EmptyComponent.prototype.render = function render () {
+    EmptyComponent.prototype.render = function render() {
       var ref = this.state.props;
       var tag = ref.tag;
       var children = ref.children;
@@ -3363,21 +3329,17 @@ function buildWebEmptyComponent (Component, createElement) {
   }(Component))
 }
 
-// import {
-//   isObjectShallowModified
-// } from './util'
-
 function filterCollection(collection) {
   var result = [];
   collection.forEach(function (v) {
-    if (v.type === "if") {
+    if (v.type === 'if') {
       var _result = v.conditions.filter(function (_v) { return _v.exp; }).map(function (_v) {
         return {
-          type: "if",
+          type: 'if',
           index: _v.index,
           element: _v.element,
           exp: _v.exp
-        };
+        }
       });
       if (_result.length) {
         result.push(_result[0]);
@@ -3387,11 +3349,9 @@ function filterCollection(collection) {
     }
   });
   if (result.length > 1) {
-    console.warn(
-      "<transition> can only be used on a single element. Use <transition-group> for lists."
-    );
+    console.warn("<transition> can only be used on a single element. Use <transition-group> for lists.");
   }
-  return result;
+  return result
 }
 
 /**
@@ -3402,36 +3362,38 @@ function filterCollection(collection) {
  */
 function getHookArgumentsLength(fn) {
   if (isUndef(fn)) {
-    return false;
+    return false
   }
   var invokerFns = fn.fns;
   if (isDef(invokerFns)) {
     // invoker
     return getHookArgumentsLength(
-      Array.isArray(invokerFns) ? invokerFns[0] : invokerFns
-    );
+      Array.isArray(invokerFns)
+        ? invokerFns[0]
+        : invokerFns
+    )
   } else {
-    return (fn._length || fn.length) > 1;
+    return (fn._length || fn.length) > 1
   }
 }
 
 // only used in dev mode
 function checkDuration(val, name) {
-  if (typeof val !== "number") {
+  if (typeof val !== 'number') {
     warn(
       "<transition> explicit " + name + " duration is not a valid number - " +
-        "got " + (JSON.stringify(val)) + "."
+      "got " + (JSON.stringify(val)) + "."
     );
   } else if (isNaN(val)) {
     warn(
       "<transition> explicit " + name + " duration is NaN - " +
-        "the duration expression might be incorrect."
+      'the duration expression might be incorrect.'
     );
   }
 }
 
 function isValidDuration(val) {
-  return typeof val === "number" && !isNaN(val);
+  return typeof val === 'number' && !isNaN(val)
 }
 
 function addTransitionClass$$1(ref, className) {
@@ -3498,45 +3460,54 @@ function enter(ref) {
   var isAppear = this.isAppear;
 
   if (isUndef(el)) {
-    return;
+    return
   }
 
-  if (isAppear && !appear && appear !== "") {
-    return;
+  if (isAppear && !appear && appear !== '') {
+    return
   }
 
   if (isDef(el._enterCb) || el.nodeType !== 1) {
-    return;
+    return
   }
 
-  var startClass = isAppear && appearClass ? appearClass : enterClass;
-  var activeClass =
-    isAppear && appearActiveClass ? appearActiveClass : enterActiveClass;
-  var toClass = isAppear && appearToClass ? appearToClass : enterToClass;
+  var startClass = isAppear && appearClass
+    ? appearClass
+    : enterClass;
+  var activeClass = isAppear && appearActiveClass
+    ? appearActiveClass
+    : enterActiveClass;
+  var toClass = isAppear && appearToClass
+    ? appearToClass
+    : enterToClass;
 
   var beforeEnterHook = isAppear
-    ? onBeforeAppear || onBeforeEnter
+    ? (onBeforeAppear || onBeforeEnter)
     : onBeforeEnter;
-  var enterHook = isAppear ? onAppear || onEnter : onEnter;
+  var enterHook = isAppear
+    ? (onAppear || onEnter)
+    : onEnter;
   var afterEnterHook = isAppear
-    ? onAfterAppear || onAfterEnter
+    ? (onAfterAppear || onAfterEnter)
     : onAfterEnter;
   var enterCancelledHook = isAppear
-    ? onAppearCancelled || onEnterCancelled
+    ? (onAppearCancelled || onEnterCancelled)
     : onEnterCancelled;
 
   var explicitEnterDuration = toNumber(
-    isObject(duration) ? duration.enter : duration
+    isObject(duration)
+      ? duration.enter
+      : duration
   );
 
-  if (process.env.NODE_ENV !== "production" && explicitEnterDuration != null) {
-    checkDuration(explicitEnterDuration, "enter");
+  if (process.env.NODE_ENV !== 'production' && explicitEnterDuration != null) {
+    checkDuration(explicitEnterDuration, 'enter');
   }
 
   var expectsCSS = css !== false && !isIE9;
   var userWantsControl = getHookArgumentsLength(enterHook);
 
-  var _cb = (el._enterCb = once(function () {
+  var _cb = el._enterCb = once(function () {
     if (expectsCSS) {
       removeTransitionClass$$1(el, activeClass);
       removeTransitionClass$$1(el, toClass);
@@ -3551,7 +3522,7 @@ function enter(ref) {
       afterEnterHook && afterEnterHook(el);
     }
     el._enterCb = null;
-  }));
+  });
 
   beforeEnterHook && beforeEnterHook(el);
 
@@ -3596,25 +3567,27 @@ function leave(ref) {
   var duration = ref$1.duration;
 
   if (isUndef(el)) {
-    return;
+    return
   }
 
   if (isDef(el._leaveCb) || el.nodeType !== 1) {
-    return;
+    return
   }
 
   var expectsCSS = css !== false && !isIE9;
   var userWantsControl = getHookArgumentsLength(onLeave);
 
   var explicitLeaveDuration = toNumber(
-    isObject(duration) ? duration.leave : duration
+    isObject(duration)
+      ? duration.leave
+      : duration
   );
 
-  if (process.env.NODE_ENV !== "production" && explicitLeaveDuration != null) {
-    checkDuration(explicitLeaveDuration, "leave");
+  if (process.env.NODE_ENV !== 'production' && explicitLeaveDuration != null) {
+    checkDuration(explicitLeaveDuration, 'leave');
   }
 
-  var _cb = (el._leaveCb = once(function () {
+  var _cb = el._leaveCb = once(function () {
     if (expectsCSS) {
       removeTransitionClass$$1(el, leaveActiveClass);
       removeTransitionClass$$1(el, leaveToClass);
@@ -3629,7 +3602,7 @@ function leave(ref) {
       onAfterLeave && onAfterLeave(el);
     }
     el._leaveCb = null;
-  }));
+  });
 
   onBeforeLeave && onBeforeLeave(el);
   if (expectsCSS) {
@@ -3649,7 +3622,7 @@ function leave(ref) {
     });
   }
   onLeave && onLeave(el, _cb);
-  if (!expectsCSS && !userWantsControl) {
+  if (!expectsCSS && !userWantsControl && !onLeave) {
     _cb();
   }
 }
@@ -3671,19 +3644,19 @@ function buildWebTransition(Component, createElement) {
       };
     }
 
-    if ( Component ) Transition.__proto__ = Component;
-    Transition.prototype = Object.create( Component && Component.prototype );
+    if (Component) Transition.__proto__ = Component;
+    Transition.prototype = Object.create(Component && Component.prototype);
     Transition.prototype.constructor = Transition;
 
-    Transition.prototype.setRef = function setRef (ref, key) {
+    Transition.prototype.setRef = function setRef(ref, key) {
       if (!ref) {
-        return;
+        return
       }
       this._ref = ref._ref || ref;
       this._refs[key] = this._ref;
     };
 
-    Transition.prototype.resolveData = function resolveData (props, type) {
+    Transition.prototype.resolveData = function resolveData(props, type) {
       var this$1 = this;
 
       var target = filterCollection(props[WEB.transition.collection])[0];
@@ -3698,7 +3671,7 @@ function buildWebTransition(Component, createElement) {
         if (element.key != null) {
           key$1 = element.key + key$1;
         }
-        if (target.type === "component") {
+        if (target.type === 'component') {
           var targetExp = target.exp;
           var thisTarget = this.state.transObj[this.state.tagKey];
           var thisExp = thisTarget && thisTarget.exp;
@@ -3712,7 +3685,7 @@ function buildWebTransition(Component, createElement) {
           this$1.setRef(ref, _props.key);
           element.ref && element.ref(ref);
         };
-        if (target.type === "component") {
+        if (target.type === 'component') {
           _props[COMMON.setRef.name] = setRef;
         } else {
           _props.ref = setRef;
@@ -3726,8 +3699,8 @@ function buildWebTransition(Component, createElement) {
           transObj: transObj,
           animated: true,
           tagKey: _props.key
-        };
-      } else if (type === "update") {
+        }
+      } else if (type === 'update') {
         var tagKey = this.state.tagKey;
         var transition = this.state.transObj[tagKey];
         // someone want to hide and his prev state is show
@@ -3740,36 +3713,34 @@ function buildWebTransition(Component, createElement) {
             animated: true,
             transObj: transObj$1,
             tagKey: tagKey
-          };
+          }
         }
       }
     };
 
-    Transition.prototype.componentWillMount = function componentWillMount () {
+    Transition.prototype.componentWillMount = function componentWillMount() {
       this.transitionResolved = resolveTransition(this.props);
       this.isAppear = true;
       var state = this.resolveData(this.props);
       state && this.setState(state);
     };
 
-    Transition.prototype.componentDidMount = function componentDidMount () {
+    Transition.prototype.componentDidMount = function componentDidMount() {
       this.resolveEnterTransition({
         el: this._refs[this.state.tagKey]
       });
     };
 
-    Transition.prototype.componentWillReceiveProps = function componentWillReceiveProps (nextProps) {
+    Transition.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
       var this$1 = this;
 
       this.transitionResolved = resolveTransition(nextProps);
       this.isAppear = false;
-      var nextState = this.resolveData(nextProps, "update");
+      var nextState = this.resolveData(nextProps, 'update');
 
       if (nextState) {
-        this._shouldComponentUpdateTransitionResult = this._shouldComponentUpdateTransition(
-          nextProps,
-          nextState
-        );
+        this._shouldComponentUpdateTransitionResult =
+          this._shouldComponentUpdateTransition(nextProps, nextState);
         this.setState(nextState);
       }
 
@@ -3788,52 +3759,47 @@ function buildWebTransition(Component, createElement) {
       }
     };
 
-    Transition.prototype._shouldComponentUpdateTransition = function _shouldComponentUpdateTransition (nextProps, nextState) {
-      if (
-        Object.keys(nextState.transObj).length !==
-        Object.keys(this.state.transObj).length
-      ) {
-        return true;
+    Transition.prototype._shouldComponentUpdateTransition = function _shouldComponentUpdateTransition(nextProps, nextState) {
+      if (Object.keys(nextState.transObj).length !==
+        Object.keys(this.state.transObj).length) {
+        return true
       }
       if (nextState.tagKey === this.state.tagKey) {
         var nextTransition = nextState.transObj[nextState.tagKey];
         var transition = this.state.transObj[this.state.tagKey];
         if (nextTransition && transition) {
-          return transition.exp !== nextTransition.exp;
+          return transition.exp !== nextTransition.exp
         }
       }
-      return true;
+      return true
     };
 
-    Transition.prototype.resolveEnterTransition = function resolveEnterTransition (option) {
+    Transition.prototype.resolveEnterTransition = function resolveEnterTransition(option) {
       enter.call(this, option);
     };
 
-    Transition.prototype.resolveLeaveTransition = function resolveLeaveTransition (option) {
+    Transition.prototype.resolveLeaveTransition = function resolveLeaveTransition(option) {
       leave.call(this, option);
     };
 
-    Transition.prototype.componentDidUpdate = function componentDidUpdate (prevProps, prevState) {
+    Transition.prototype.componentDidUpdate = function componentDidUpdate(prevProps, prevState) {
       var this$1 = this;
 
-      if (
-        this.state.animated === false ||
-        this._shouldComponentUpdateTransitionResult === false
-      ) {
-        return;
+      if (this.state.animated === false ||
+        this._shouldComponentUpdateTransitionResult === false) {
+        return
       }
-      if (this.state.tagKey === prevState.tagKey) {
-        // same element
+      if (this.state.tagKey === prevState.tagKey) { // same element
         var ref = this._refs[this.state.tagKey];
         var transition = this.state.transObj[this.state.tagKey];
         if (ref && transition) {
-          if (transition.type === "show") {
-            ref.style.display = "";
+          if (transition.type === 'show') {
+            ref.style.display = '';
             if (transition.exp === false) {
               this.resolveLeaveTransition({
                 el: ref,
                 cb: function () {
-                  ref.style.display = "none";
+                  ref.style.display = 'none';
                 }
               });
             } else if (transition.exp === true) {
@@ -3841,7 +3807,7 @@ function buildWebTransition(Component, createElement) {
                 el: ref
               });
             }
-          } else if (transition.type === "if") {
+          } else if (transition.type === 'if') {
             if (transition.exp === false) {
               var transObj = Object.assign({}, this.state.transObj);
               delete transObj[prevState.tagKey];
@@ -3881,24 +3847,20 @@ function buildWebTransition(Component, createElement) {
       }
     };
 
-    Transition.prototype.render = function render () {
+    Transition.prototype.render = function render() {
       var transObj = this.state.transObj;
       var tag = this.props.tag || EmptyComponent;
-      return createElement(
-        tag,
-        null,
-        Object.keys(transObj).map(function (k) {
-          var type = transObj[k].element.type;
-          var props = transObj[k].props;
-          var children = props.children;
-          return createElement(type, props, children);
-        })
-      );
+      return createElement(tag, null, Object.keys(transObj).map(function (k) {
+        var type = transObj[k].element.type;
+        var props = transObj[k].props;
+        var children = props.children;
+        return createElement(type, props, children)
+      }))
     };
 
     return Transition;
   }(Component));
-  return Transition;
+  return Transition
 }
 
 function buildInputComponent(Component, createElement) {
@@ -3910,54 +3872,49 @@ function buildInputComponent(Component, createElement) {
       };
     }
 
-    if ( superclass ) Input.__proto__ = superclass;
-    Input.prototype = Object.create( superclass && superclass.prototype );
+    if (superclass) Input.__proto__ = superclass;
+    Input.prototype = Object.create(superclass && superclass.prototype);
     Input.prototype.constructor = Input;
-    Input.prototype.buildStateProps = function buildStateProps (props) {
+    Input.prototype.buildStateProps = function buildStateProps(props) {
       var this$1 = this;
 
       var stateProps = superclass.prototype.buildStateProps.call(this, props);
 
-      var onChangeFn =
-        stateProps.onChange || stateProps.onInput || function() {};
+      var onChangeFn = stateProps.onChange || stateProps.onInput || function () { };
       stateProps.onChange = function (event) {
         this$1.setState({
           props: Object.assign({}, this$1.state.props, {
             value: event.target.value
           })
         });
-        return onChangeFn(event);
+        return onChangeFn(event)
       };
 
-      return handleProps(stateProps, props[WEB.inputComponent.tag]);
+      return handleProps(stateProps, props[WEB.inputComponent.tag])
     };
-    Input.prototype.setStateProps = function setStateProps (props) {
+    Input.prototype.setStateProps = function setStateProps(props) {
       var stateProps = this.buildStateProps(props);
       this.setState({
         props: stateProps
       });
     };
-    Input.prototype.componentWillMount = function componentWillMount () {
+    Input.prototype.componentWillMount = function componentWillMount() {
       this.setStateProps(this.props);
     };
-    Input.prototype.componentWillReceiveProps = function componentWillReceiveProps (nextProps) {
+    Input.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
       this.setStateProps(nextProps);
     };
-    Input.prototype.render = function render () {
-      return createElement(
-        this.props[WEB.inputComponent.tag],
-        this.state.props,
-        this.state.props.children
-      );
+    Input.prototype.render = function render() {
+      return createElement(this.props[WEB.inputComponent.tag], this.state.props, this.state.props.children)
     };
 
     return Input;
-  }(buildMixin.apply(this, arguments)));
+  }(buildMixin.apply(this, arguments)))
 }
 
 var buildWebInputComponent = buildInputComponent;
 
-function buildNativeComponent (render, options, config) {
+function buildNativeComponent(render, options, config) {
   var Component = config.Component;
   var PropTypes = config.PropTypes;
   var Vue = config.Vue;
@@ -3969,12 +3926,12 @@ function buildNativeComponent (render, options, config) {
       if (/^[A-Z]/.test(k)) {
         try {
           Vue.component(k, ReactNative[k]);
-        } catch (e) {}
+        } catch (e) { }
       }
     });
   }
   var ReactVueComponent = (function (Component) {
-    function ReactVueComponent (props) {
+    function ReactVueComponent(props) {
       Component.call(this, props);
       this._ref = null;
       this.eventOnceUid = [];
@@ -3989,14 +3946,14 @@ function buildNativeComponent (render, options, config) {
       this.css = ReactNative.StyleSheet.create(css);
     }
 
-    if ( Component ) ReactVueComponent.__proto__ = Component;
-    ReactVueComponent.prototype = Object.create( Component && Component.prototype );
+    if (Component) ReactVueComponent.__proto__ = Component;
+    ReactVueComponent.prototype = Object.create(Component && Component.prototype);
     ReactVueComponent.prototype.constructor = ReactVueComponent;
 
     /**
      * children can access parent instance by 'this.context.owner'
      */
-    ReactVueComponent.prototype.getChildContext = function getChildContext () {
+    ReactVueComponent.prototype.getChildContext = function getChildContext() {
       return {
         owner: this
       }
@@ -4005,7 +3962,7 @@ function buildNativeComponent (render, options, config) {
     /**
      * for event modifiers v-on:xxx.once
      */
-    ReactVueComponent.prototype.setEventOnce = function setEventOnce (fn) {
+    ReactVueComponent.prototype.setEventOnce = function setEventOnce(fn) {
       var this$1 = this;
 
       var name = fn.name;
@@ -4017,7 +3974,7 @@ function buildNativeComponent (render, options, config) {
       }
     };
 
-    ReactVueComponent.prototype.setRootRef = function setRootRef (ref) {
+    ReactVueComponent.prototype.setRootRef = function setRootRef(ref) {
       if (ref) {
         ref = ref._ref || ref;
         this._ref = ref;
@@ -4025,7 +3982,7 @@ function buildNativeComponent (render, options, config) {
       }
     };
 
-    ReactVueComponent.prototype.setRef = function setRef (ref, text, inFor) {
+    ReactVueComponent.prototype.setRef = function setRef(ref, text, inFor) {
       if (ref) {
         // for buildin component, we set ref to his hold node directly
         // it means the buildin componet would be the end of $refs chain
@@ -4042,7 +3999,7 @@ function buildNativeComponent (render, options, config) {
       }
     };
 
-    ReactVueComponent.prototype.buildVM = function buildVM (options) {
+    ReactVueComponent.prototype.buildVM = function buildVM(options) {
       // set this property to prevent runtime error in vue
       render._withStripped = true;
 
@@ -4078,7 +4035,7 @@ function buildNativeComponent (render, options, config) {
       return vm
     };
 
-    ReactVueComponent.prototype.componentWillMount = function componentWillMount () {
+    ReactVueComponent.prototype.componentWillMount = function componentWillMount() {
       var this$1 = this;
 
       this.vm = this.buildVM(options);
@@ -4092,36 +4049,36 @@ function buildNativeComponent (render, options, config) {
       this.beforeMount.forEach(function (v) { return v.call(this$1.vm); });
     };
 
-    ReactVueComponent.prototype.componentDidMount = function componentDidMount () {
+    ReactVueComponent.prototype.componentDidMount = function componentDidMount() {
       var this$1 = this;
 
       setTimeout(function () {
         this$1.mounted.forEach(function (v) { return v.call(this$1.vm); });
       }, 0);
     };
-    ReactVueComponent.prototype.componentWillUpdate = function componentWillUpdate () {
+    ReactVueComponent.prototype.componentWillUpdate = function componentWillUpdate() {
       var this$1 = this;
 
       this.beforeUpdate.forEach(function (v) { return v.call(this$1.vm); });
     };
-    ReactVueComponent.prototype.componentDidUpdate = function componentDidUpdate () {
+    ReactVueComponent.prototype.componentDidUpdate = function componentDidUpdate() {
       var this$1 = this;
 
       this.updated.forEach(function (v) { return v.call(this$1.vm); });
     };
-    ReactVueComponent.prototype.componentWillUnmount = function componentWillUnmount () {
+    ReactVueComponent.prototype.componentWillUnmount = function componentWillUnmount() {
       var this$1 = this;
 
       this.beforeDestroy.forEach(function (v) { return v.call(this$1.vm); });
     };
-    ReactVueComponent.prototype.componentWillReceiveProps = function componentWillReceiveProps (nextProps) {
+    ReactVueComponent.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
       this.vm._props && Object.assign(this.vm._props, nextProps);
       this.vm.$slots = getSlots(nextProps.children);
     };
-    ReactVueComponent.prototype.shouldComponentUpdate = function shouldComponentUpdate (nextProps) {
+    ReactVueComponent.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps) {
       return isObjectShallowModified(this.props, nextProps)
     };
-    ReactVueComponent.prototype.render = function render$1 () {
+    ReactVueComponent.prototype.render = function render$1() {
       return render ? render.call(this, this.vm._renderProxy) : null
     };
 
@@ -4146,6 +4103,7 @@ exports.bindWebClass = bindWebClass;
 exports.bindNativeClass = bindNativeClass;
 exports.bindWebStyle = bindWebStyle;
 exports.bindNativeStyle = bindNativeStyle;
+exports.mergeNativeStyleAndNativeClass = mergeNativeStyleAndNativeClass;
 exports.checkKeyCodes = checkKeyCodes;
 exports.template = template;
 exports.event = event;

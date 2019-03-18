@@ -194,7 +194,7 @@ export function parse (
       if (currentParent && !element.forbidden) {
         if (element.elseif || element.else) {
           processIfConditions(element, currentParent)
-        } else if (element.slotScope) { // scoped slot
+        } else if (element.slotTarget || element.slotScope) { // scoped slot
           currentParent.plain = false
           const name = element.slotTarget || '"default"'
           ;(currentParent.scopedSlots || (currentParent.scopedSlots = {}))[name] = element
