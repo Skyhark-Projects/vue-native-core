@@ -1,6 +1,6 @@
 {
-  "name": "vue-native-scripts",
-  "version": "0.0.14",
+  "name": "sky-vue-native-scripts",
+  "version": "0.0.15",
   "description": "Compile Vue component to React Native",
   "main": "index.js",
   "scripts": {},
@@ -20,7 +20,7 @@
     "line-number": "^0.1.0",
     "node-watch": "^0.5.4",
     "parse5": "^5.0.0",
-    "vue-native-template-compiler": "^0.0.12",
+    "sky-vue-native-template-compiler": "^0.0.13",
     "walk": "^2.3.9"
   },
   "devDependencies": {
