@@ -2103,7 +2103,7 @@ function eventsMixin (Vue) {
     } else if(props[cbName]) {
         var args$1 = toArray(arguments, 1);
         var res = props[cbName].apply(vm, args$1);
-        if(typeof(res) === 'function' && res.name === 'boundFn') {
+        if(typeof(res) === 'function' /*&& res.name === 'boundFn'*/) {
             res.apply(void 0, args$1);
         }
     }

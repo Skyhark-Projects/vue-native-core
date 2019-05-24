@@ -138,7 +138,7 @@ export function eventsMixin (Vue: Class<Component>) {
     } else if(props[cbName]) {
         const args = toArray(arguments, 1)
         const res = props[cbName].apply(vm, args)
-        if(typeof(res) === 'function' && res.name === 'boundFn') {
+        if(typeof(res) === 'function' /*&& res.name === 'boundFn'*/) {
             res(...args);
         }
     }
